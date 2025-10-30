@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Librería Académica - Sistema de Facturación</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+  <div class="max-w-2xl mx-auto mt-10 bg-white p-8 rounded-xl shadow-lg">
+    <h1 class="text-2xl font-bold text-center mb-6">📚 Sistema de Facturación - Librería Académica</h1>
+
+    <!-- Formulario -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+      <input id="nombreProducto" type="text" placeholder="Nombre del producto"
+        class="border p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400">
+      <input id="precioProducto" type="number" step="0.01" placeholder="Precio ($)"
+        class="border p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400">
+      <button onclick="agregarProducto()" class="bg-blue-500 text-white rounded-md p-2 hover:bg-blue-600 transition">
+        ➕ Agregar producto
+      </button>
+    </div>
+
+    <!-- Mensaje de validación -->
+    <p id="mensaje" class="text-red-500 text-sm mb-4"></p>
+
+    <!-- Lista de productos -->
+    <h2 class="font-semibold mb-2 text-lg">🧾 Productos registrados:</h2>
+    <ul id="listaProductos" class="list-disc pl-6 space-y-1 mb-6 text-gray-700">
+      <!-- Aquí se mostrarán los productos -->
+    </ul>
+
+    <!-- Botón generar factura -->
+    <button onclick="generarFactura()" class="bg-green-500 text-white w-full rounded-md p-2 hover:bg-green-600 transition">
+      💰 Generar factura
+    </button>
+
+    <!-- Resultados -->
+    <div id="resultados" class="mt-6 text-lg space-y-2"></div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
