@@ -3,59 +3,135 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Librería Académica - Sistema de Facturación</title>
+  <title>📚 Sistema de Facturación - Librería Académica</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body class="bg-gray-100 text-gray-800">
+<body class="bg-gray-100 p-6">
 
-  <div class="max-w-3xl mx-auto mt-10 bg-white p-8 rounded-xl shadow-lg">
-    <h1 class="text-2xl font-bold text-center mb-6">📚 Sistema de Facturación - Librería Académica</h1>
+<div class="max-w-3xl mx-auto mt-10 bg-white p-8 rounded-xl shadow-lg">
+  <h1 class="text-2xl font-bold text-center mb-6">📚 Sistema de Facturación - Librería Académica</h1>
 
-    <!-- Selección de producto -->
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
-      <select id="productoSelect" onchange="mostrarPrecio()"
-        class="border p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400">
-        <option value="">-- Selecciona un producto --</option>
-        <option value="Libro de Matemáticas" data-precio="12.5">Libro de Matemáticas</option>
-        <option value="Cuaderno grande" data-precio="3.2">Cuaderno grande</option>
-        <option value="Bolígrafo azul" data-precio="0.8">Bolígrafo azul</option>
-        <option value="Resaltador" data-precio="1.5">Resaltador</option>
-        <option value="Mochila escolar" data-precio="20.0">Mochila escolar</option>
-        <option value="Calculadora científica" data-precio="15.0">Calculadora científica</option>
-        <option value="Regla 30 cm" data-precio="0.9">Regla 30 cm</option>
-        <option value="Témperas escolares" data-precio="5.0">Témperas escolares</option>
-      </select>
+  <!-- Selección de producto -->
+  <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
+    <select id="productoSelect" onchange="mostrarPrecio()"
+      class="border p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400">
+      <option value="">-- Selecciona un producto --</option>
+      <option value="Libro de Matemáticas" data-precio="12.5">Libro de Matemáticas</option>
+      <option value="Cuaderno grande" data-precio="3.2">Cuaderno grande</option>
+      <option value="Bolígrafo azul" data-precio="0.8">Bolígrafo azul</option>
+      <option value="Resaltador" data-precio="1.5">Resaltador</option>
+      <option value="Mochila escolar" data-precio="20.0">Mochila escolar</option>
+      <option value="Calculadora científica" data-precio="15.0">Calculadora científica</option>
+      <option value="Regla 30 cm" data-precio="0.9">Regla 30 cm</option>
+      <option value="Témperas escolares" data-precio="5.0">Témperas escolares</option>
+    </select>
 
-      <!-- Precio -->
-      <input id="precioProducto" type="number" step="0.01" placeholder="Precio"
-        class="border p-2 rounded-md bg-gray-100" readonly>
+    <input id="precioProducto" type="number" step="0.01" placeholder="Precio"
+      class="border p-2 rounded-md bg-gray-100" readonly>
 
-      <!-- Cantidad -->
-      <input id="cantidadProducto" type="number" min="1" placeholder="Cantidad"
-        class="border p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400">
+    <input id="cantidadProducto" type="number" min="1" placeholder="Cantidad"
+      class="border p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400">
 
-      <!-- Botón agregar -->
-      <button onclick="agregarProducto()" class="bg-blue-500 text-white rounded-md p-2 hover:bg-blue-600 transition">
-        ➕ Agregar
-      </button>
-    </div>
-
-    <!-- Mensaje -->
-    <p id="mensaje" class="text-red-500 text-sm mb-4"></p>
-
-    <!-- Lista de productos agregados -->
-    <h2 class="font-semibold mb-2 text-lg">🧾 Productos en factura:</h2>
-    <ul id="listaProductos" class="list-disc pl-6 space-y-1 mb-6 text-gray-700"></ul>
-
-    <!-- Botón generar factura -->
-    <button onclick="generarFactura()" class="bg-green-500 text-white w-full rounded-md p-2 hover:bg-green-600 transition">
-      💰 Generar factura
+    <button onclick="agregarProducto()" class="bg-blue-500 text-white rounded-md p-2 hover:bg-blue-600 transition">
+      ➕ Agregar
     </button>
-
-    <!-- Resultados -->
-    <div id="resultados" class="mt-6 text-lg space-y-2"></div>
   </div>
 
-  <script src="script.js"></script>
+  <p id="mensaje" class="text-red-500 text-sm mb-4"></p>
+
+  <h2 class="font-semibold mb-2 text-lg">🧾 Productos en factura:</h2>
+  <ul id="listaProductos" class="list-disc pl-6 space-y-1 mb-6 text-gray-700"></ul>
+
+  <button onclick="generarFactura()" class="bg-green-500 text-white w-full rounded-md p-2 hover:bg-green-600 transition">
+    💰 Generar factura
+  </button>
+
+  <div id="resultados" class="mt-6 text-lg space-y-2"></div>
+</div>
+
+<script>
+// ====== SISTEMA DE FACTURACIÓN ======
+let productos = [];
+let precios = [];
+let cantidades = [];
+
+function mostrarPrecio() {
+  let select = document.getElementById("productoSelect");
+  let precio = select.options[select.selectedIndex].getAttribute("data-precio");
+  document.getElementById("precioProducto").value = precio ? parseFloat(precio).toFixed(2) : "";
+}
+
+function agregarProducto() {
+  let select = document.getElementById("productoSelect");
+  let nombre = select.value;
+  let precio = parseFloat(document.getElementById("precioProducto").value);
+  let cantidad = parseInt(document.getElementById("cantidadProducto").value);
+  let mensaje = document.getElementById("mensaje");
+  mensaje.textContent = "";
+
+  if (nombre === "" || isNaN(precio) || isNaN(cantidad) || cantidad <= 0) {
+    mensaje.textContent = "⚠️ Debe seleccionar un producto y cantidad válida.";
+    return;
+  }
+
+  let index = productos.indexOf(nombre);
+  if (index !== -1) {
+    cantidades[index] += cantidad;
+  } else {
+    productos.push(nombre);
+    precios.push(precio);
+    cantidades.push(cantidad);
+  }
+
+  select.value = "";
+  document.getElementById("precioProducto").value = "";
+  document.getElementById("cantidadProducto").value = "";
+
+  mostrarLista();
+}
+
+function mostrarLista() {
+  let lista = document.getElementById("listaProductos");
+  lista.innerHTML = "";
+  for (let i = 0; i < productos.length; i++) {
+    let subtotal = precios[i] * cantidades[i];
+    lista.innerHTML += `<li class="flex justify-between"><span>${i+1}. ${productos[i]} (x${cantidades[i]})</span><span>$${subtotal.toFixed(2)}</span></li>`;
+  }
+}
+
+function generarFactura() {
+  if (productos.length === 0) {
+    alert("No hay productos en la factura.");
+    return;
+  }
+
+  let subtotal = 0;
+  let productoCaro = productos[0];
+  let maxPrecio = precios[0];
+
+  for (let i = 0; i < productos.length; i++) {
+    subtotal += precios[i] * cantidades[i];
+    if (precios[i] > maxPrecio) {
+      maxPrecio = precios[i];
+      productoCaro = productos[i];
+    }
+  }
+
+  let iva = subtotal * 0.15;
+  let total = subtotal + iva;
+  let promedio = precios.reduce((a,b)=>a+b,0)/precios.length;
+
+  document.getElementById("resultados").innerHTML = `
+    <p><strong>Subtotal:</strong> $${subtotal.toFixed(2)}</p>
+    <p><strong>IVA (15%):</strong> $${iva.toFixed(2)}</p>
+    <p><strong>Total a pagar:</strong> $${total.toFixed(2)}</p>
+    <hr class="my-2">
+    <p><strong>Cantidad total de productos:</strong> ${cantidades.reduce((a,b)=>a+b,0)}</p>
+    <p><strong>Producto más caro:</strong> ${productoCaro} ($${maxPrecio.toFixed(2)})</p>
+    <p><strong>Promedio de precios:</strong> $${promedio.toFixed(2)}</p>
+  `;
+}
+</script>
+
 </body>
 </html>
